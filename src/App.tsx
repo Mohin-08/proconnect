@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import LandingPage from './LandingPage'
 import AuthPage from './AuthPage'
 import AdminDashboard from './admin/AdminDashboard'
 import AdminUserManagement from './admin/AdminUserManagement'
@@ -18,7 +19,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AuthPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/users" element={<AdminUserManagement />} />
         <Route path="/admin/services" element={<AdminServiceListings />} />
