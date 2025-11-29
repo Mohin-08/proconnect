@@ -89,7 +89,7 @@ export default function UserFavorites() {
           if (!professional || !service) return null
 
           return {
-            id: favoritesData.find(f => f.professional_service_id === ps.id)?.id || 0,
+            id: (favoritesData.find((f: any) => f.professional_service_id === ps.id) as any)?.id || 0,
             professional_service_id: ps.id,
             professional_id: ps.professional_id,
             service_id: ps.service_id,
@@ -105,7 +105,7 @@ export default function UserFavorites() {
         })
         .filter((item: any) => item !== null) || []
 
-      setFavorites(combinedFavorites)
+      setFavorites(combinedFavorites.filter(Boolean) as FavoriteService[])
       setLoading(false)
     }
 

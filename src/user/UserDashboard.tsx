@@ -142,7 +142,7 @@ export default function UserDashboard() {
 
       console.log('Transformed services:', transformed)
 
-      setServices(transformed)
+      setServices(transformed.filter(Boolean) as Service[])
       setLoading(false)
     }
 

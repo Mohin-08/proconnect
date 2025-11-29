@@ -91,7 +91,7 @@ export default function ProfessionalServices() {
         return
       }
 
-      setServices((data || []) as ProServiceRow[])
+      setServices((data || []) as unknown as ProServiceRow[])
       setLoading(false)
     }
 
@@ -190,7 +190,7 @@ export default function ProfessionalServices() {
         return
       }
 
-      setServices((prev) => [...prev, data as ProServiceRow])
+      setServices((prev) => [...prev, data as unknown as ProServiceRow])
     }
 
     setShowModal(false)
