@@ -157,7 +157,7 @@ function AuthPage() {
           <div className="field" style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
             <ReCAPTCHA
               ref={recaptchaRef}
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"}
               onChange={onCaptchaChange}
             />
           </div>
