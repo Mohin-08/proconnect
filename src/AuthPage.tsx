@@ -1,25 +1,42 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import type { FormEvent } from 'react'
 import { supabase } from './supabaseClient'
 import { useNavigate } from 'react-router-dom'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 type Mode = 'login' | 'signup'
 type Role = 'admin' | 'professional' | 'user' | 'support'
 
 function AuthPage() {
   const navigate = useNavigate()
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
   const [mode, setMode] = useState<Mode>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState<Role>('user')
   const [loading, setLoading] = useState(false)
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null)
 
   const toggleMode = () => {
     setMode(mode === 'login' ? 'signup' : 'login')
+    setCaptchaValue(null)
+    if (recaptchaRef.current) {
+      recaptchaRef.current.reset()
+    }
+  }
+
+  const onCaptchaChange = (value: string | null) => {
+    setCaptchaValue(value)
   }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    
+    if (!captchaValue) {
+      alert('Please complete the CAPTCHA verification')
+      return
+    }
+    
     setLoading(true)
 
     try {
@@ -137,7 +154,15 @@ function AuthPage() {
             />
           </div>
 
-          <button type="submit" disabled={loading}>
+          <div className="field" style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              onChange={onCaptchaChange}
+            />
+          </div>
+
+          <button type="submit" disabled={loading || !captchaValue}>
             {loading ? 'Please wait…' : mode === 'login' ? 'Sign In' : 'Sign Up'}
           </button>
         </form>
