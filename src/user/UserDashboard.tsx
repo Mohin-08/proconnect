@@ -88,11 +88,12 @@ export default function UserDashboard() {
         return
       }
 
-      // Get all professionals
+      // Get all professionals from profiles table
       const { data: professionalsData, error: profError } = await supabase
-        .from('professionals')
+        .from('profiles')
         .select('*')
-        .eq('available_for_new_projects', true)
+        .eq('role', 'professional')
+        .eq('status', 'active')
 
       if (profError) {
         console.error('Error loading professionals:', profError)
@@ -128,12 +129,12 @@ export default function UserDashboard() {
             professional_id: ps.professional_id,
             service_id: ps.service_id,
             professional_name: professional.full_name || 'Professional',
-            professional_title: professional.title || 'Service Provider',
+            professional_title: ps.custom_title || service.name || 'Service Provider',
             professional_location: professional.location,
             professional_bio: professional.bio,
             service_name: service.name || 'Service',
             service_category: service.category || 'Other',
-            hourly_rate: ps.rate || professional.hourly_rate || 50,
+            hourly_rate: ps.rate || 50,
             rating: Number((Math.random() * 1.5 + 3.5).toFixed(1)),
             jobs_completed: Math.floor(Math.random() * 200) + 50
           }
